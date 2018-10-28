@@ -94,6 +94,9 @@ function checkForBlacklistedHeaderKey(key) {
 }
 
 function checkForInvalidHeaderValue(value) {
+  if (value === null) {
+    return null
+  }
   if (getTypeOf(value) !== 'String') {
     throw new Error(messages.INVALID_HEADERS_VALUE);
   }
@@ -110,7 +113,7 @@ function checkTimeoutValue(timeout) {
 }
 
 function checkHeadersObject(headers) {
-  return checkKeyValuePairObject(headers, [ 'String' ], messages.INVALID_HEADERS_VALUE);
+  return checkKeyValuePairObject(headers, [ 'String', 'Null'], messages.INVALID_HEADERS_VALUE);
 }
 
 function checkParamsObject(params) {
@@ -172,7 +175,7 @@ function getMergedHeaders(url, requestHeaders, predefinedHeaders) {
   var mergedHeaders = mergeHeaders(globalHeaders, hostHeaders);
 
   mergedHeaders = mergeHeaders(mergedHeaders, requestHeaders);
-  mergedHeaders = mergeHeaders(mergedHeaders, getCookieHeader(url));
+  // mergedHeaders = mergeHeaders(mergedHeaders, getCookieHeader(url));
 
   return mergedHeaders;
 }
